@@ -654,7 +654,7 @@ jobs:
         run: docker/ubuntu/build.sh
 
       - name: Push docker image
-        run: docker push cnstark/pytorch:${{IMAGE_TAG}}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/pytorch:${IMAGE_TAG}
 """
 
 
@@ -696,7 +696,7 @@ jobs:
         run: docker/centos/build.sh
 
       - name: Push docker image
-        run: docker push cnstark/pytorch:${{IMAGE_TAG}}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/pytorch:${IMAGE_TAG}
 """
 
 
