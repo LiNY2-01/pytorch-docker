@@ -13,8 +13,7 @@ RUN apt update && \
 
 ARG PYTHON_VERSION
 
-RUN MINICONDA_ARCH=x86_64   ;; \
-    esac && \
+RUN MINICONDA_ARCH=x86_64 \
     curl -fsSL -v -o ~/miniconda.sh -O  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-${MINICONDA_ARCH}.sh" \
     chmod +x ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p /opt/conda && \
