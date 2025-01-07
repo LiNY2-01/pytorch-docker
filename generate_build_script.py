@@ -651,10 +651,10 @@ jobs:
         run: docker login --username=${{{{ secrets.DOCKER_USERNAME }}}} --password=${{{{ secrets.DOCKER_PASSWORD }}}}
 
       - name: Build docker image
-        run: docker/ubuntu/build.sh
+        run: docker/ubuntu/build.sh && docker tag torch-docker/pytorch:${{IMAGE_TAG}} ${{{{ secrets.DOCKER_USERNAME }}}}/pytorch:${{IMAGE_TAG}}
 
       - name: Push docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/pytorch:${IMAGE_TAG}
+        run: docker push ${{{{ secrets.DOCKER_USERNAME }}}}/pytorch:${{IMAGE_TAG}}
 """
 
 
@@ -693,10 +693,10 @@ jobs:
         run: docker login --username=${{{{ secrets.DOCKER_USERNAME }}}} --password=${{{{ secrets.DOCKER_PASSWORD }}}}
 
       - name: Build docker image
-        run: docker/centos/build.sh
+        run: docker/ubuntu/build.sh && docker tag torch-docker/pytorch:${{IMAGE_TAG}} ${{{{ secrets.DOCKER_USERNAME }}}}/pytorch:${{IMAGE_TAG}}
 
       - name: Push docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/pytorch:${IMAGE_TAG}
+        run: docker push ${{{{ secrets.DOCKER_USERNAME }}}}/pytorch:${{IMAGE_TAG}}
 """
 
 

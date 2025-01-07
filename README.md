@@ -36,7 +36,7 @@ docker run -it --rm \
     --net host
     -v /path/to/project:/path/to/project \
     -v /path/to/dataset:/path/to/dataset \
-    cnstark/pytorch:[TAG]
+    liny2/pytorch:[TAG]
 ```
 
 Note: `/path/to/project` and `/path/to/dataset` is your **own** project path and dataset path, should be replaced in use.
