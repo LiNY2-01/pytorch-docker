@@ -13,17 +13,16 @@ RUN apt update && \
 
 ARG PYTHON_VERSION
 
-RUN cd /tmp && \
-    wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
-    tar -xvf Python-${PYTHON_VERSION}.tgz && \
-    cd Python-${PYTHON_VERSION} && \
-    ./configure --enable-optimizations && \
-    make && make install && \
-    cd .. && rm Python-${PYTHON_VERSION}.tgz && rm -r Python-${PYTHON_VERSION} && \
-    ln -s /usr/local/bin/python3 /usr/local/bin/python && \
-    ln -s /usr/local/bin/pip3 /usr/local/bin/pip && \
-    python -m pip install --upgrade pip && \
-    rm -r /root/.cache/pip
+RUN MINICONDA_ARCH=x86_64   ;; \
+    esac && \
+    curl -fsSL -v -o ~/miniconda.sh -O  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-${MINICONDA_ARCH}.sh" \
+    chmod +x ~/miniconda.sh && \
+    bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda install -y python=${PYTHON_VERSION} cmake conda-build pyyaml numpy ipython && \
+    /opt/conda/bin/conda clean -ya
+
+
 
 ARG PYTORCH_VERSION
 ARG PYTORCH_VERSION_SUFFIX
@@ -41,17 +40,25 @@ RUN if [ ! $TORCHAUDIO_VERSION ]; \
     fi && \
     if [ ! $PYTORCH_DOWNLOAD_URL ]; \
     then \
-        pip install \
+        /opt/conda/bin/python -mpip install \
             torch==${PYTORCH_VERSION}${PYTORCH_VERSION_SUFFIX} \
             torchvision==${TORCHVISION_VERSION}${TORCHVISION_VERSION_SUFFIX} \
             ${TORCHAUDIO}; \
     else \
-        pip install \
+        /opt/conda/bin/python -mpip install \
             torch==${PYTORCH_VERSION}${PYTORCH_VERSION_SUFFIX} \
             torchvision==${TORCHVISION_VERSION}${TORCHVISION_VERSION_SUFFIX} \
             ${TORCHAUDIO} \
             -f ${PYTORCH_DOWNLOAD_URL}; \
     fi && \
-    rm -r /root/.cache/pip
+    rm -r /root/.cache/pip \
+    /opt/conda/bin/conda clean -ya
+    
+ENV PATH /opt/conda/bin:$PATH
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:$PATH
+ENV PYTORCH_VERSION ${PYTORCH_VERSION}
 
 WORKDIR /workspace

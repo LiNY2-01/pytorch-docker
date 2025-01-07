@@ -705,7 +705,7 @@ GITHUB_BUILD_YML_TEMPLATE = {
     'centos': GITHUB_BUILD_YML_TEMPLATE_CENTOS,
 }
 
-README_TEMPLATE = '| ![pytorch{}] ![python{}] ![{}] ![{}{}] [![](https://img.shields.io/docker/image-size/cnstark/pytorch/{})][DockerHub] | `docker pull cnstark/pytorch:{}` |'
+README_TEMPLATE = '| ![pytorch{}] ![python{}] ![{}] ![{}{}] [![](https://img.shields.io/docker/image-size/liny2/pytorch/{})][DockerHub] | `docker pull liny2/pytorch:{}` |'
 
 
 def generate_build_args(os_name, os_version, python_version, pytorch_version, cuda_version, cuda_flavor=None):
