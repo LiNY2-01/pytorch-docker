@@ -13,9 +13,9 @@ RUN apt update && \
 
 ARG PYTHON_VERSION
 
-RUN MINICONDA_ARCH=x86_64; \
-    curl -fsSL -v -o ~/miniconda.sh -O  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-${MINICONDA_ARCH}.sh"\
-    ;chmod +x ~/miniconda.sh && \
+RUN MINICONDA_ARCH=x86_64 && \
+    curl -fsSL -v -o ~/miniconda.sh -O  "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-${MINICONDA_ARCH}.sh" &&\
+    chmod +x ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     /opt/conda/bin/conda install -y python=${PYTHON_VERSION} cmake conda-build pyyaml numpy ipython && \
@@ -50,7 +50,7 @@ RUN if [ ! $TORCHAUDIO_VERSION ]; \
             ${TORCHAUDIO} \
             -f ${PYTORCH_DOWNLOAD_URL}; \
     fi && \
-    rm -r /root/.cache/pip \
+    rm -r /root/.cache/pip &&\
     /opt/conda/bin/conda clean -ya
     
 ENV PATH /opt/conda/bin:$PATH
